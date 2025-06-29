@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourseMaster | Login/Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .background img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        .login-form, .signup-form {
+            position: relative;
+            z-index: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .signup-form {
+            display: none; /* Initially hidden */
+        }
+
+        h2 {
+            margin-top: 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+        #error-msg, #signup-error-msg {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        #signup-link {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+
+        #signup-link:hover {
+            color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background">
+            <div class="overlay"></div>
+            <img src="https://img.freepik.com/free-vector/seamless-gold-rhombus-grid-pattern-black-background_53876-97589.jpg" alt="Background Image">
+        </div>
+        <div class="login-form" id="login-form">
+            <h2>Login to Epelodies</h2>
+            <form>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button id="login-btn">Login</button>
+                <p id="error-msg"></p>
+                <p>Don't have an account? <a href="#" id="signup-link">Sign up</a></p>
+            </form>
+        </div>
+        <div class="signup-form" id="signup-form">
+            <h2>Sign up for CourseMaster</h2>
+            <form>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <button id="signup-btn">Sign up</button>
+                <p id="signup-error-msg"></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginForm = document.getElementById("login-form");
+            const signupForm = document.getElementById("signup-form");
+            const signupLink = document.getElementById("signup-link");
+            const loginBtn = document.getElementById("login-btn");
+            const signupBtn = document.getElementById("signup-btn");
+            const errorMsg = document.getElementById("error-msg");
+            const signupErrorMsg = document.getElementById("signup-error-msg");
+
+            // Switch to signup form
+            signupLink.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                loginForm.style.display = "none"; // Hide the login form
+                signupForm.style.display = "block"; // Show the signup form
+            });
+
+            // Login button functionality
+            loginBtn.addEventListener("click", function(event) {
+                event.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    errorMsg.textContent = "Please enter a valid email address.";
+                    return;
+                }
+
+                // Validate password length
+                if (password.length < 10) {
+                    errorMsg.textContent = "Password must be at least 10 characters long.";
+                    return;
+                }
+
+                // Simulate a successful login response
+                errorMsg.textContent = ""; // Clear any previous error messages
+                alert("Login successful!"); // Show a success message
+            });
+
+            // Signup button functionality
+            signupBtn.addEventListener("click", function(event) {
+                event.preventDefault();
+                const signupEmail = document.getElementById("signup-email").value;
+                const signupPassword = document.getElementById("signup-password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(signupEmail)) {
+                    signupErrorMsg.textContent = "Please enter a valid email address.";
+                    return;
+                }
+
+                // Validate password length
+                if (signupPassword.length < 10) {
+                    signupErrorMsg.textContent = "Password must be at least 10 characters long.";
+                    return;
+                }
+
+                // Check if passwords match
+                if (signupPassword !== confirmPassword) {
+                    signupErrorMsg.textContent = "Passwords do not match.";
+                    return;
+                }
+
+                // Simulate a successful signup response
+                signupErrorMsg.textContent = ""; // Clear any previous error messages
+                alert("Signup successful!"); // Show a success message
+
+                // Redirect to login form
+                signupForm.style.display = "none"; // Hide the signup form
+                loginForm.style.display = "block"; // Show the login form
+            });
+        });
+    </script>
+</body>
+</html>
